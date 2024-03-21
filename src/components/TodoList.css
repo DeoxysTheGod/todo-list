@@ -3,14 +3,14 @@
     padding: 0;
 }
 
-@keyframes slideIn {
+@keyframes slideInAndFade {
     from {
         opacity: 0;
-        transform: translateY(-100%);
+        transform: translateY(-50px); /* Déplacement vers le haut */
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0); /* Retour à la position initiale */
     }
 }
 
@@ -23,7 +23,7 @@
     align-items: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s, transform 0.3s, opacity 0.3s; /* Ajout de transition */
-    animation: slideIn 0.5s forwards, fadeIn 0.5s forwards; /* Ajout des animations slideIn et fadeIn */
+    animation: slideInAndFade 0.5s forwards; /* Ajout des animations slideIn et fadeIn *!*/
 }
 
 .todo-item:last-child {
@@ -76,11 +76,22 @@
     color: #ccc;
 }
 
-@keyframes fadeIn {
+.todo-item:hover .delete-button {
+    opacity: 1;
+}
+
+@keyframes FadeOut {
     from {
-        opacity: 0;
+        opacity: 1;
+        transform: scale(1);
     }
     to {
-        opacity: 1;
+        opacity: 0;
+        transform: scale(0.5);
     }
+}
+
+.todo-item.deleting {
+    animation: FadeOut 0.3s ease;
+    pointer-events: none; /* Désactiver les événements de pointer pendant l'animation */
 }
