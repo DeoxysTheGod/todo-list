@@ -6,22 +6,34 @@ footer {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #333;
+    background-color: #111;
     color: #fff;
     padding: 20px;
     height: 60px;
 }
 
 input[type="text"] {
-    padding: 8px;
+    padding: .8rem;
+    border: none;
     flex-grow: 1; /* Allow the search bar to take up the remaining space */
     margin-right: 2rem; /* Add space between the search bar and the button */
     box-sizing: border-box; /* Include padding and border in element's total width and height */
+    border-radius: .5rem;
+    background-color: #333;
+    color: white;
+}
+
+input[type="text"]::placeholder {
+    color: #999;
+}
+
+input[type="text"]:focus {
+    outline: none;
 }
 
 button {
     padding: 8px 8px;
-    background-color: #007bff;
+    background-color: #4a4188;
     color: #fff;
     border: none;
     cursor: pointer;
