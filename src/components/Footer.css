@@ -1,0 +1,32 @@
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed; /* Fixe le pied de page en bas de la page */
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    height: 60px;
+}
+
+input[type="text"] {
+    padding: 8px;
+    flex-grow: 1; /* Allow the search bar to take up the remaining space */
+    margin-right: 2rem; /* Add space between the search bar and the button */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+button {
+    padding: 8px 8px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+    flex-shrink: 0; /* Prevent the button from shrinking below its content's size */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    min-width: 50px; /* Ensure the button does not shrink below this width */
+}
