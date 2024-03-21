@@ -24,6 +24,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s, transform 0.3s, opacity 0.3s; /* Ajout de transition */
     animation: slideInAndFade 0.5s forwards; /* Ajout des animations slideIn et fadeIn *!*/
+    animation-iteration-count: 1;
 }
 
 .todo-item:last-child {
@@ -92,6 +93,25 @@
 }
 
 .todo-item.deleting {
-    animation: FadeOut 0.3s ease;
+    animation: FadeOut 300ms ease-out;
     pointer-events: none; /* Désactiver les événements de pointer pendant l'animation */
+}
+
+.order-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.order-btn > button {
+    background-color: transparent;
+    color: #aaa;
+    border: none;
+    padding: 0 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
 }

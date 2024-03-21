@@ -69,13 +69,17 @@ class App extends Component {
         }));
     };
 
+    updateTasksOrder = (newTasksOrder) => {
+        this.setState({ tasks: newTasksOrder });
+    };
+
     render() {
         const { tasks, isModalOpen, newTaskTitle } = this.state;
 
         return (
             <div className="app">
                 <Header remainingTasks={tasks.filter(task => !task.isChecked).length} totalTasks={tasks.length} />
-                <TodoList tasks={tasks} handleCheckboxChange={this.handleCheckboxChange} handleDeleteTask={this.handleDeleteTask}/>
+                <TodoList tasks={tasks} handleCheckboxChange={this.handleCheckboxChange} handleDeleteTask={this.handleDeleteTask} updateTasksOrder={this.updateTasksOrder} />
                 <Footer handleAddTask={this.handleAddTask} />
                 <Modal isOpen={isModalOpen} handleClose={this.handleCloseModal}>
                     <input type="text" placeholder={"Ma tâche est ..."} value={newTaskTitle} onChange={(e) => this.setState({ newTaskTitle: e.target.value })} />

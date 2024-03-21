@@ -9,6 +9,63 @@ class TodoList extends Component {
         };
     }
 
+    handleDragStart = (e, taskId) => {
+        e.dataTransfer.setData('text/plain', taskId.toString());
+    };
+
+    handleDragOver = (e, targetTaskId) => {
+        e.preventDefault();
+        const sourceTaskId = parseInt(e.dataTransfer.getData('text/plain'));
+        if (sourceTaskId !== targetTaskId) {
+            const updatedTasks = this.reorderTasks(sourceTaskId, targetTaskId);
+            this.setState({ tasks: updatedTasks });
+        }
+    };
+
+    reorderTasks = (sourceTaskId, targetTaskId) => {
+        const { tasks } = this.props;
+        const updatedTasks = [...tasks];
+        const sourceIndex = updatedTasks.findIndex(task => task.id === sourceTaskId);
+        const targetIndex = updatedTasks.findIndex(task => task.id === targetTaskId);
+        const [removedTask] = updatedTasks.splice(sourceIndex, 1);
+        updatedTasks.splice(targetIndex, 0, removedTask);
+        return updatedTasks;
+    };
+
+
+
+    handleDrop = (e, targetTaskId) => {
+        e.preventDefault();
+        const sourceTaskId = parseInt(e.dataTransfer.getData('text/plain'));
+        if (sourceTaskId !== targetTaskId) {
+            const updatedTasks = this.reorderTasks(sourceTaskId, targetTaskId);
+            this.setState({ tasks: updatedTasks });
+            this.props.updateTasksOrder(updatedTasks);
+        }
+    };
+
+    handleMoveUp = (taskId) => {
+        const { tasks } = this.props;
+        const taskIndex = tasks.findIndex(task => task.id === taskId);
+        if (taskIndex > 0) {
+            const updatedTasks = [...tasks];
+            const [removedTask] = updatedTasks.splice(taskIndex, 1);
+            updatedTasks.splice(taskIndex - 1, 0, removedTask);
+            this.props.updateTasksOrder(updatedTasks);
+        }
+    };
+
+    handleMoveDown = (taskId) => {
+        const { tasks } = this.props;
+        const taskIndex = tasks.findIndex(task => task.id === taskId);
+        if (taskIndex < tasks.length - 1) {
+            const updatedTasks = [...tasks];
+            const [removedTask] = updatedTasks.splice(taskIndex, 1);
+            updatedTasks.splice(taskIndex + 1, 0, removedTask);
+            this.props.updateTasksOrder(updatedTasks);
+        }
+    };
+
     handleChange = (taskId) => {
         this.props.handleCheckboxChange(taskId);
     };
@@ -18,7 +75,7 @@ class TodoList extends Component {
         setTimeout(() => {
             this.props.handleDeleteTask(taskId);
             this.setState({ deletingTaskId: null });
-        }, 300); // Temps de délai avant la suppression réelle
+        }, 290); // Temps de délai avant la suppression réelle
     };
 
     render() {
@@ -28,7 +85,14 @@ class TodoList extends Component {
         return (
             <ul className="todo-list">
                 {tasks.map(task => (
-                    <li key={task.id} className={`${deletingTaskId === task.id ? 'deleting' : ''} todo-item`}>
+                    <li
+                        key={task.id}
+                        className={`${deletingTaskId === task.id ? 'deleting' : ''} todo-item`}
+                        draggable={true}
+                        onDragStart={(e) => this.handleDragStart(e, task.id)}
+                        onDragOver={this.handleDragOver}
+                        onDrop={(e) => this.handleDrop(e, task.id)}
+                    >
                         <label className="checkbox-container">
                             <input
                                 type="checkbox"
@@ -46,6 +110,10 @@ class TodoList extends Component {
                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m4 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path>
                             </svg>
                         </button>
+                        <div className={"order-btn"}>
+                            <button onClick={() => this.handleMoveUp(task.id)}>▲</button>
+                            <button onClick={() => this.handleMoveDown(task.id)}>▼</button>
+                        </div>
                     </li>
                 ))}
             </ul>
