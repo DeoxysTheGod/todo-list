@@ -3,6 +3,17 @@
     padding: 0;
 }
 
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .todo-item {
     padding: 15px;
     border-radius: 10px;
@@ -11,7 +22,8 @@
     display: flex;
     align-items: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.3s, opacity 0.3s; /* Ajout de transition */
+    animation: slideIn 0.5s forwards, fadeIn 0.5s forwards; /* Ajout des animations slideIn et fadeIn */
 }
 
 .todo-item:last-child {
@@ -28,47 +40,47 @@
 
 .checkbox-custom {
     display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-color: #fff;
+    width: 24px;
+    height: 24px;
+    background-color: #fff; /* Couleur de base */
     border: 2px solid #ccc;
-    border-radius: 5px;
+    border-radius: 5px; /* Forme ronde */
     cursor: pointer;
     position: relative;
 }
 
-.checkbox-custom:before {
-    content: '';
+.checkbox-custom:after {
+    content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>'); /* SVG de la coche */
+    width: 24px; /* Largeur du SVG */
+    height: 24px; /* Hauteur du SVG */
     position: absolute;
-    width: 16px; /* Taille de la coche */
-    height: 8px; /* Taille de la coche */
-    border-width: 0 0 2px 2px;
-    border-style: solid;
-    border-color: transparent;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) rotate(45deg);
-    opacity: 0; /* Initialiser l'opacité à 0 pour l'animation */
-    transition: all 0.3s ease; /* Transition pour l'animation */
+    transform: translate(-50%, -50%) scale(0); /* Transformation pour cacher la coche initialement */
+    transition: all 0.3s ease; /* Animation de la coche */
 }
 
-.checkbox-input:checked + .checkbox-custom:before {
-    opacity: 1; /* Afficher la coche */
+.checkbox-input:checked + .checkbox-custom:after {
+    transform: translate(-50%, -50%) scale(1); /* Afficher la coche lorsqu'elle est cochée */
 }
 
 .task-title {
     font-size: 20px;
     flex: 1;
+    position: relative; /* Position relative pour les animations */
+    transition: color 0.3s, text-decoration 0.3s; /* Transition pour la couleur et le barré */
 }
 
 .checked {
-    color: #888;
+    text-decoration: line-through;
+    color: #ccc;
 }
 
-.checkbox-label:hover {
-    cursor: pointer;
-}
-
-.checkbox-input:focus + .checkbox-custom {
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
