@@ -39,7 +39,6 @@ class TodoList extends Component {
         const sourceTaskId = parseInt(e.dataTransfer.getData('text/plain'));
         if (sourceTaskId !== targetTaskId) {
             const updatedTasks = this.reorderTasks(sourceTaskId, targetTaskId);
-            this.setState({ tasks: updatedTasks });
             this.props.updateTasksOrder(updatedTasks);
         }
     };
@@ -84,7 +83,7 @@ class TodoList extends Component {
 
         return (
             <ul className="todo-list">
-                {tasks.map(task => (
+                {tasks.map((task, index) => (
                     <li
                         key={task.id}
                         className={`${deletingTaskId === task.id ? 'deleting' : ''} todo-item`}
@@ -111,8 +110,8 @@ class TodoList extends Component {
                             </svg>
                         </button>
                         <div className={"order-btn"}>
-                            <button onClick={() => this.handleMoveUp(task.id)}>▲</button>
-                            <button onClick={() => this.handleMoveDown(task.id)}>▼</button>
+                            {index !== 0 && <button onClick={() => this.handleMoveUp(task.id)}>▲</button>}
+                            {index !== tasks.length - 1 && <button onClick={() => this.handleMoveDown(task.id)}>▼</button>}
                         </div>
                     </li>
                 ))}

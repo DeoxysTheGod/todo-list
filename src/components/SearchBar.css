@@ -1,0 +1,9 @@
+/* src/components/SearchBar.css */
+.search-input {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.search-input.active:focus {
+    opacity: 0.5;
+}

@@ -11,8 +11,13 @@ class App extends Component {
         this.state = {
             tasks: [],
             isModalOpen: false,
-            newTaskTitle: ""
+            newTaskTitle: "",
+            searchTerm: ""
         };
+    }
+
+    handleSearch = (searchTerm) => {
+        this.setState({ searchTerm });
     }
 
     componentDidMount() {
@@ -74,13 +79,17 @@ class App extends Component {
     };
 
     render() {
-        const { tasks, isModalOpen, newTaskTitle } = this.state;
+        const filteredTasks = this.state.tasks.filter(task =>
+            task.title.toLowerCase().includes(this.state.searchTerm.toLowerCase())
+        );
+        console.log(this.state.tasks);
+        const { isModalOpen, newTaskTitle } = this.state;
 
         return (
             <div className="app">
-                <Header remainingTasks={tasks.filter(task => !task.isChecked).length} totalTasks={tasks.length} />
-                <TodoList tasks={tasks} handleCheckboxChange={this.handleCheckboxChange} handleDeleteTask={this.handleDeleteTask} updateTasksOrder={this.updateTasksOrder} />
-                <Footer handleAddTask={this.handleAddTask} />
+                <Header remainingTasks={filteredTasks.filter(task => !task.isChecked).length} totalTasks={filteredTasks.length} />
+                <TodoList tasks={filteredTasks} handleCheckboxChange={this.handleCheckboxChange} handleDeleteTask={this.handleDeleteTask} updateTasksOrder={this.updateTasksOrder} />
+                <Footer handleAddTask={this.handleAddTask} onSearch={this.handleSearch} />
                 <Modal isOpen={isModalOpen} handleClose={this.handleCloseModal}>
                     <input type="text" placeholder={"Ma tâche est ..."} value={newTaskTitle} onChange={(e) => this.setState({ newTaskTitle: e.target.value })} />
                     <button onClick={this.handleAddNewTask}>Ajouter</button>
